@@ -118,6 +118,18 @@ select {
   gap: var(--gap, 1rem);
 }
 
+.flow > * + * {
+  margin-top: var(--flow-space, 1rem);
+  /* 1rem becomes the default
+  can change the custom variable in an inline style if you want w.g. style="--flow-space: 4rem" */
+  outline: 1px solid red;
+}
+
+/* 
+* + * is a 'lobotomised owl' and it selects everything that has an adjacent sibling directly before it. Complaint about it is that it's hard for people who stumble across it to understand. you could comment it or use the alternative: 
+*:where(:not(:first-child)) 'anything that's not the first child'. Using this with margin-top (or using *:where(:not(:first-child)) with margin-bottom) makes the margin around you box of elements nice and even. The newish pseudo class :where doesn't add any specificity (:is does) leaving the :where out could cause specificity problems. * + * doesn't cause specificity problems either. Andy Bell uses * + *
+*/
+
 .container {
   /* padding: 0, 2rem; */
   padding-inline: 2rem;

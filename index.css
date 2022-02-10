@@ -246,3 +246,44 @@ select {
   font-weight: 700;
   color: hsl(var(--clr-white) / 0.25);
 }
+
+/* ------------------- */
+/* Components         */
+/* ------------------- */
+
+.large-button {
+  position: relative;
+  /* to pair with the ::after decoration's absolute */
+  display: grid;
+  /* often you'd use display: inline-block but with grid we can place items center*/
+  z-index: 1;
+  /* When you have a z-index on an absolute postioned image inside something else it's usually a good idea to force a new stacking context. So since we are are using z-index in the ::after we also add one here to set the new context. It won't be able to escape outside of this button*/
+  place-items: center;
+  /* short-hand for align items and justify items */
+
+  padding: 0 2em;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  /* same as aspect-ratio: 1 / 1 */
+  text-decoration: none;
+}
+.large-button::after {
+  /* KP likes pseudo elements for decorations because they are easy and give good animation options */
+  content: '';
+  /* pseudo elements must have a content property or there'll be nothing there */
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background: hsl(var(--clr-white) / 0.15);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 500ms linear, transform 750ms ease-in-out;
+}
+
+.large-button:hover::after,
+.large-button:focus::after {
+  opacity: 1;
+  transform: scale(1.5);
+}
+/* Instead of doing an animation on the width and the height which are expensive for browser (can lead to repaints and re-flows of content on page), do them on the transform (scale, translate, rotate), which don't. Bonus: plus they are GPU accelerated, so smoother */
